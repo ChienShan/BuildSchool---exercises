@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" ContentContentContent="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" ContentContentContent="ie=edge">
+    <title>Document</title>
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+    <header style="position: sticky; top: 0; z-index: 50;">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Logo</a>
+                </li>
+                <!-- Links -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 2 </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Dropdown link
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Link 1</a>
+                        <a class="dropdown-item" href="#">Link 2</a>
+                        <a class="dropdown-item" href="#">Link 3</a>
+                    </div>
+                </li>
+            </ul>
+            <input type="text" class="form-control" id="usr" style="width: 200px;margin: 10px;">
+            <button type="button" class="btn btn-success">Search</button>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="container">
+
+            <div class="row"> 
+                <div id="demo" class="carousel slide" data-ride="carousel" style=" margin: 0 auto; margin-top: 30px;">
+
+                    <!-- Indicators -->
+                    <ul class="carousel-indicators">
+                        <li data-target="#demo" data-slide-to="0" class="active"></li>
+                        <li data-target="#demo" data-slide-to="1"></li>
+                        <li data-target="#demo" data-slide-to="2"></li>
+                    </ul>
+
+                    <!-- The slideshow -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="https://www.w3schools.com/bootstrap4/ny.jpg" alt="Los Angeles">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://www.w3schools.com/bootstrap4/la.jpg" alt="Chicago">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://www.w3schools.com/bootstrap4/chicago.jpg" alt="New York">
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="row" style=" margin: 0 auto; margin-top: 30px;">
+                <div>
+                    <h3>美國</h3>
+                    <p style="font-size: 16px;">
+                        美利堅合眾國，通稱合眾國或亞美利加，中文通稱「美國」，是由其下轄50個州、華盛頓哥倫比亞特區、五個自治領土及外島共同組成的聯邦共和國。美國本土48州和聯邦特區位於北美洲中部，東臨大西洋，北面是加拿大，南部和墨西哥及墨西哥灣接壤，本土位於溫帶、副熱帶地區。
+                    </p>
+                </div>
+            </div>
+
+            <div class="row" style="text-align: center"> 
+                <div class="col-sm-4" style=" margin: 0 auto; margin-top: 30px;">
+                    <img src="https://fakeimg.pl/100x100?text=image&font=noto" class="rounded-circle" height="200">
+                    <p>簡介</p>
+                </div>
+                <div class="col-sm-4" style=" margin: 0 auto; margin-top: 30px;">
+                    <img src="https://fakeimg.pl/100x100?text=image&font=noto" class="rounded-circle" height="200">
+                    <p>簡介</p>
+                </div>
+                <div class="col-sm-4" style=" margin: 0 auto; margin-top: 30px;">
+                    <img src="https://fakeimg.pl/100x100?text=image&font=noto" class="rounded-circle" height="200">
+                    <p>簡介</p>
+                </div>
+            </div>
+
+            <div class="row" style=" margin: 0 auto; margin-top: 20px;">
+                <div class="col-sm-6">
+                        <h4>Title</h4>
+                        <p>ContentContentContent</p>
+                        <h4>Title</h4>
+                        <p>ContentContentContent</p>
+                        <h4>Title</h4>
+                        <p>ContentContentContent</p>
+                </div>
+                <div class="col-sm-6">
+                        <h4>Title</h4>
+                        <p>ContentContentContent</p>
+                        <h4>Title</h4>
+                        <p>ContentContentContent</p>
+                        <h4>Title</h4>
+                        <p>ContentContentContent</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

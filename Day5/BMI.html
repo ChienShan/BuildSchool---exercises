@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script>
+        $(function () {
+            $('#Button1').click(get);
+            $('#CheckAll').click(set);
+            $('#sel01').change(pChange);
+
+            //img.hover
+            $('img').hover(
+                function() //滑鼠移過去做的事
+                {
+                    $(this).css("cursor", "pointer");
+                    $(this).css("transform","scale(1.1)").css("transition-duration", "0.5s"); //放大與變形時間
+                },
+                function() //滑鼠移出做的事
+                {
+                    $(this).css("transform","scale(1)").css("transition-duration", "0.5s");
+                }
+            );
+        });
+        //BMI
+        function GetBmi(height, weight) {
+            var bmi = 0;
+            H = height / 100;
+            bmi = weight / (H * H);
+            return bmi;
+        }
+
+        function get() {
+            var height = $('#textHeight').val();
+            var weight = $('#textWeight').val();
+
+            $('#result').html(GetBmi(height, weight));
+        }
+
+        
+        //Checkbox
+        function set(){
+            var check = $('#CheckAll').prop('checked');
+            $('#CheckBoxGroup input').prop("checked", check);
+        }
+
+        //圖片
+
+        function pChange(){
+            var val = $(this).val();
+            $('#ImgGroup2 img').removeClass();
+            $('#ImgGroup2 img').addClass(val);
+        }
+
+    </script>
+    <style>
+        .br15
+        {
+            border-radius: 15px;
+        }
+
+        .br30
+        {
+            border-radius: 30px;
+        }
+
+        .br50
+        {
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row" style="margin:10px">
+            <div class="col-6">
+                <h1>BMI計算(改成jQuery版本)</h1>
+                <label>身高:</label>
+                <input class="form-control" id="textHeight" value="0" />
+                <label>體重:</label>
+                <input class="form-control" id="textWeight" value="0" />
+                <br />
+                <button class="btn btn-primary" id="Button1">計算</button>
+                <br />
+                <span id="result"></span>
+            </div>
+        </div>
+        <hr />
+        <!--勾選-->
+        <div class="row" style="margin:10px">
+            <div class="col-12">
+                <input id="CheckAll" type="checkbox" />勾選全部
+                <div id="CheckBoxGroup">
+                    <input type="checkbox" />項目1
+                    <input type="checkbox" />項目2
+                    <input type="checkbox" />項目3
+                    <input type="checkbox" />項目4
+                    <input type="checkbox" />項目5
+                    <input type="checkbox" />項目6
+                    <input type="checkbox" />項目7
+                    <input type="checkbox" />項目8
+                </div>
+            </div>
+        </div>
+        <hr />
+        <!--圖片-->
+        <div id="ImgGroup2" class="row" style="margin:10px; padding-top:100px">
+            <div class="col-12">
+                <select id="sel01" style="margin-bottom: 50px">
+                    <option value="br15">15px</option>
+                    <option value="br30">30px</option>
+                    <option value="br50">50px</option>
+                </select>
+            </div>
+
+            <div class="col-4">
+                <img src="https://cdn.pixabay.com/photo/2016/10/17/10/52/wind-farm-1747331_1280.jpg" style="width:100%" class="img-responsive" />
+            </div>
+            <div class="col-4">
+                <img src="https://cdn.pixabay.com/photo/2016/03/09/16/49/cooperative-1246862_1280.jpg" style="width:100%" class="img-responsive" />
+            </div>
+            <div class="col-4">
+                <img src="https://cdn.pixabay.com/photo/2016/03/09/16/49/landscape-1246861_1280.jpg" style="width:100%" class="img-responsive" />
+            </div>
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

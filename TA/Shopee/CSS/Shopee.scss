@@ -1,0 +1,137 @@
+@import "normalize";
+
+$background_top: rgb(255, 60, 60);
+
+body {
+    background-color: rgb(230, 230, 230)
+}
+
+
+
+#titletop {
+    background-color: $background_top;
+    height: 50px;
+    width: 100%;
+
+    i {
+        color: whitesmoke;
+    }
+
+    button {
+        font-size: 20px;
+        color: whitesmoke;
+        background-color: $background_top;
+        border-style: none;
+    }
+}
+
+#titlebar {
+    background-color: $background_top;
+    text-align: center;
+    font-size: 20px;
+    color: whitesmoke;
+    height: 100px;
+}
+
+
+#squarePho {
+    display: flex;
+    margin: 0px auto;
+    width: 90%;
+    height: 300px;
+    margin-top: 10px;
+
+    #squarePar1 {
+        border: 1px red solid;
+        height: 100%;
+    }
+
+    #squarePar2 {
+        border: 1px blue solid;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        height: 100%;
+        width: 100%;
+        
+        div
+        {
+            height: 100px;
+        }
+        .items {
+            border: 1px black solid;
+        }
+    }
+}
+
+#circlePho {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+    width: 100%;
+
+    .circleItem {
+        float: left;
+        margin-left: 150px;
+        display: flex;
+        flex-flow: row;
+        flex-grow: 1;
+
+        img {
+
+            border-radius: 40px;
+            margin: 10px;
+        }
+
+        p {
+            font-size: 12px;
+            margin: 5px;
+        }
+    }
+
+}
+
+#squrePic {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+
+    .squreItem {
+        float: left;
+        margin-left: 150px;
+        display: flex;
+        width: 100%;
+        flex-flow: row;
+        flex-grow: 1;
+
+        img {
+            margin: 2%;
+        }
+    }
+
+    .squrePri {
+        float: left;
+        margin-left: 150px;
+        display: flex;
+        width: 100%;
+        flex-flow: row;
+        flex-grow: 1;
+
+        p {
+            margin: 18px;
+        }
+    }
+
+    .squreBar {
+        float: left;
+        margin-left: 150px;
+        display: flex;
+        width: 100%;
+        flex-flow: row;
+        flex-grow: 1;
+
+        div {
+            margin: 10px;
+        }
+    }
+}

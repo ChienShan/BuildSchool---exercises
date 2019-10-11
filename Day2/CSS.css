@@ -1,0 +1,31 @@
+body
+{
+    width: 500px;
+
+}
+#diz1
+{
+    height: 300px;
+    overflow: scroll;
+}
+img
+{
+    width: 200px;
+    border-radius: 5px;
+    float: right;
+    margin: 10px;
+}
+
+#par2
+{
+    line-height: 50px;   
+    border-width: 2px;
+    border-color: darkgoldenrod;
+    border-style: dotted;
+    border-top: medium dashed blue;
+    border-radius: 1px 2px 5px 5px;
+}
+li
+{
+    list-style-image: url('https://img.icons8.com/color/48/000000/star--v2.png');
+}

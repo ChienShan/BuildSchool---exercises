@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    fieldset
+    {
+        border-radius: 5px;
+        width: 500px;
+    }
+    </style>
+    <script>
+    function getElement(name)
+    {
+        return document.getElementById(name);
+    }
+
+    function Button_Submit()
+    {
+        var isChecked = getElement('MustCheck').checked;
+        if(isChecked) return true;
+
+        alert('必須勾選同意');
+        return false;
+    }
+
+    window.onload = function()
+    {
+        getElement('form1').onsubmit = function()
+        {
+            return Button_Submit();
+        };
+    };
+    </script>
+</head>
+
+<body>
+    <form id="form1" action="http://isbaas.azurewebsites.net/WebForms/Form2Mail.aspx?mailto=patrick0533066@gmail.com&redirect=http://www.google.com" method="POST">
+        <fieldset>
+            <legend>
+                個人資料--必填
+            </legend>
+            <div>
+                <lable>姓名:</lable>
+                <input type="text" placeholder="請輸入姓名" value="" id="fieldName" name="fieldname" />
+            </div>
+            <div>
+                <lable>密碼:</lable>
+                <input type="password" placeholder="請輸入密碼" value="" id="fieldpwd" name="fieldpwd" />
+            </div>
+            <div>
+                <lable>性別:</lable>
+                <input type="radio" value="1" id="gender" name="gender" />男
+                <input type="radio" value="2" id="gender" name="gender" />女
+            </div>
+        </fieldset>
+        <br/>
+        <fieldset>
+            <legend>
+                個人資料--興趣
+            </legend>
+            <div>
+                <lable>興趣:</lable>
+                <input type="checkbox" value="1" id="hobby" name="hobby" />電影
+                <input type="checkbox" value="2" id="hobby" name="hobby" />籃球
+                <input type="checkbox" value="3" id="hobby" name="hobby" />音樂
+
+            </div>
+            <div>
+                <lable>專長</lable>
+                <textarea id="talent" cols="40" rows="5">
+
+                </textarea>
+            </div>
+        </fieldset>
+        <br/>
+        <fieldset>
+            <legend>
+                個人資料--地址
+            </legend>
+            <div>
+                <lable>郵遞區號</lable>
+                <input type="text" value="" id="postid" name="postid" />
+            </div>
+            <div>
+                <lable>縣市</lable>
+                <select name="city" id="city">
+                    <option value="1" selected>台北</option>
+                    <option value="1">台中</option>
+                    <option value="1">高雄</option>
+                </select>
+            </div>
+            <div>
+                <lable>其他地址</lable>
+                <input type="text" value="" id="address" name="address" />
+            </div>
+        </fieldset>
+        <br/>
+        <div>
+            <button type="submit">送出</button>
+            <button type="reset">清除</button>
+        </div>
+
+        <div>
+            <input type="checkbox" id="MustCheck" name="MustCheck">同意使用個資
+        </div>
+    </form>
+</body>
+
+</html>

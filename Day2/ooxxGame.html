@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+      td 
+      { 
+        cursor: pointer;
+      }
+    </style>
+    <script>
+    // var value = 1;
+    var flag = "";
+    function SetPoint(obj)
+    {
+        // if(value == 1)
+        // {
+        //   obj.innerText = 'O';
+        //   value = 0;
+        // }
+        // else
+        // {
+        //   obj.innerText = 'X';
+        //   value = 1
+        // }
+        if(obj.innerText != "_") return;
+        if(flag == "X")
+        {
+          obj.innerText = 'O'; 
+          flag = "O";
+
+        }
+
+        else
+        {
+          obj.innerText = 'X';;
+          flag = "X";
+        }
+    }
+    </script>
+</head>
+<body>
+    <table border="1" style="width: 300px; height: 300px; text-align: center" id='table1'>
+        <caption>
+          <h4>OOXX</h4>
+        </caption>
+        
+        <tbody style="font-size: 50px">
+          <tr>
+            <td id="c1" onclick="SetPoint(document.getElementById('c1'))">_</td>
+            <td id="c2" onclick="SetPoint(document.getElementById('c2'))">_</td>
+            <td id="c3" onclick="SetPoint(document.getElementById('c3'))">_</td>
+          </tr>
+          <tr>
+            <td id="c4" onclick="SetPoint(document.getElementById('c4'))">_</td>
+            <td id="c5" onclick="SetPoint(document.getElementById('c5'))">_</td>
+            <td id="c6" onclick="SetPoint(document.getElementById('c6'))">_</td>
+          </tr>
+          <tr>
+            <td id="c7" onclick="SetPoint(document.getElementById('c7'))">_</td>
+            <td id="c8" onclick="SetPoint(document.getElementById('c8'))">_</td>
+            <td id="c9" onclick="SetPoint(document.getElementById('c9'))">_</td>
+          </tr>
+        </tbody>
+      </table>
+     
+</body>
+</html>
