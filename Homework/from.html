@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+
+</head>
+  <body>
+
+     
+        <form id="form1" class="form-inline" action="/action_page.php">
+            <div class="container">
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card ">
+                    <div class="card-header bg-dark text-white">個人資料--必填</div>
+
+
+                    <div class="card-body">
+                      <lable>姓名:</lable>
+                      <input type="text" class="form-control mb-2 mr-sm-2"  placeholder="請輸入姓名" value="" id="fieldName" name="fieldname" />
+                    </div>
+                    <div class="card-body">
+                      <lable>密碼:</lable>
+                      <input type="password" class="form-control mb-2 mr-sm-2"  placeholder="請輸入密碼" value="" id="fieldpwd" name="fieldpwd" />
+                    </div>
+                    <div class="card-body">
+                      <lable>性別:</lable>
+                      <input type="radio" value="1" id="gender" name="gender" />男
+                      <input type="radio" value="2" id="gender" name="gender" />女
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-header bg-dark text-white">個人資料--地址</div>
+
+                    <div class="card-body">
+                      <lable>郵遞區號: </lable>
+                      <input type="text" class="form-control mb-2 mr-sm-2" value="" id="postid" name="postid" />
+                    </div>
+                    <div class="card-body">
+                      <lable>縣市</lable>
+                      <select name="city" id="city">
+                        <option value="1" selected>台北</option>
+                        <option value="1">台中</option>
+                        <option value="1">高雄</option>
+                      </select>
+                    </div>
+                    <div class="card-body">
+                      <lable>其他地址</lable>
+                      <input type="text" class="form-control mb-2 mr-sm-2"  value="" id="address" name="address" />
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card" style="margin-top: 10px">
+                    <div class="card-header bg-dark text-white">個人資料--興趣</div>
+
+                    <div class="card-body">
+                      <lable>興趣:</lable>
+                      <input type="checkbox" value="1" id="hobby" name="hobby" />電影
+                      <input type="checkbox" value="2" id="hobby" name="hobby" />籃球
+                      <input type="checkbox" value="3" id="hobby" name="hobby" />音樂
+                    </div>
+                    <div class="card-body">
+                      <lable>專長</lable>
+                      <textarea class="form-control" id="talent" cols="40" rows="4"> </textarea>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <button type="submit" class="btn btn-dark btn-sm">送出</button>
+                <button type="reset" class="btn btn-dark btn-sm">清除</button>
+              </div>
+
+            </div>
+        </div>
+
+        </form>
+      
+   </body>
+</html>
