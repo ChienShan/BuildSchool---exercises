@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+    <script>
+        function BtnTo_Translate() {
+
+            $.ajax({
+                type: "post", //http verb
+                headers: {
+                    //http header
+                    "Ocp-Apim-Subscription-Key": "fa967146deea4116802890aadf5e5aa4",
+                    "Content-Type": "application/json"
+                },
+                url: "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en&to=ja&to=zh-Hant",
+                data: JSON.stringify([{
+                    "Text": $('#input').val()
+                }]), //要翻譯的文字
+                dataType: "json",
+                success: function (response) {
+                    //呼叫遠端服務後的回傳結果
+                    switch ($('#language1').val()) {
+                        case '0':
+                            $('#output').val(response[0].translations[0].text);
+                            break;
+
+                        case '1':
+                            $('#output').val(response[0].translations[1].text);
+                            break;
+
+                        case '2':
+                            $('#output').val(response[0].translations[2].text);
+                            break;
+
+                        default:
+                            $('#ismodal').modal();
+                            break;
+                    }
+
+                }
+            });
+        }
+
+        function BtnBack_Translate() {
+
+            $.ajax({
+                type: "post", //http verb
+                headers: {
+                    //http header
+                    "Ocp-Apim-Subscription-Key": "fa967146deea4116802890aadf5e5aa4",
+                    "Content-Type": "application/json"
+                },
+                url: "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en&to=ja&to=zh-Hant",
+                data: JSON.stringify([{
+                    "Text": $('#output').val()
+                }]), //要翻譯的文字
+                dataType: "json",
+                success: function (response) {
+                    //呼叫遠端服務後的回傳結果
+                    
+                    switch ($('#language2').val()) {
+                        case '0':
+                            $('#input').val(response[0].translations[0].text);
+                            break;
+
+                        case '1':
+                            $('#input').val(response[0].translations[1].text);
+                            break;
+
+                        case '2':
+                            $('#input').val(response[0].translations[2].text);
+                            break;
+
+                        default:
+                            $('#ismodal').modal();
+                            break;
+                    }
+                }
+            });
+        }
+
+        $(function () {
+            $('#btnTo').click(BtnTo_Translate);
+            $('#btnBack').click(BtnBack_Translate);
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-5">
+                <div class="card">
+                    <div class="card-header">
+                        輸入
+
+                        <select id="language1" name="language" class=" custom-select float-right w-25">
+                            <option selected>語言</option>
+                            <option value="0">英文</option>
+                            <option value="1">日文</option>
+                            <option value="2">中文</option>
+                        </select>
+
+                    </div>
+                    <div class="card-body">
+                        <textarea id="input" class="form-control" placeholder="請輸入翻譯文字" aria-label="With textarea"
+                            rows="10"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 text-center" style="padding: 120px 0;">
+                <button id="btnTo" type="button" class="btn btn-dark mb-2">＞</button>
+                <br />
+                <button id="btnBack" type="button" class="btn btn-dark">＜</button>
+            </div>
+            <div class="col-5">
+                <div class="card">
+                    <div class="card-header">
+                        輸出
+
+                        <select id="language2" name="language" class="custom-select float-right w-25">
+                            <option selected>語言</option>
+                            <option value="0">英文</option>
+                            <option value="1">日文</option>
+                            <option value="2">中文</option>
+                        </select>
+
+                    </div>
+                    <div class="card-body">
+                        <textarea id="output" class="form-control" placeholder="顯示翻譯文字" aria-label="With textarea"
+                            rows="10"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="ismodal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">提醒</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>請選擇翻譯語言</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
