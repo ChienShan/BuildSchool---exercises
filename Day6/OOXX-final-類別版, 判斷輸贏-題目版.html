@@ -2,7 +2,7 @@
     <html lang="en">
 
     <head>
-        <title>OOXX-final-類別版, 判斷輸贏-題目版</title>
+        <title>OOXX-final</title>
         <style>
             td {
                 text-align: center;
@@ -13,32 +13,36 @@
         <script>
             class OOXX {
                 constructor() {
-                    var a = ['', '', ''];
-                    a[0] = ['', '', ''];
-                    a[1] = ['', '', ''];
-                    a[2] = ['', '', ''];
+                    this.a = [3];
+                    this.a[0] = ['', '', ''];
+                    this.a[1] = ['', '', ''];
+                    this.a[2] = ['', '', ''];
                 }
 
                 setPoint(x, y, point) {
                     /* todo */
                     //設定落子
-                    this.x = x;
-                    this.y = y;
-                    this.point = point;
+                    this.a[x][y] = point;
                 }
 
                 HasWinner() {
 
-                    for (i = 0; i < 3; i++) {
-                        if (a[i, 0] == a[i, 1] && a[i, 1] == a[i, 2]) return 'winner';
-                        else if (a[0, i] == a[1, i] && a[1, i] == a[2, i]) return 'winner';
+                    for (let i = 0; i < 3; i++) {
+                        if (this.a[i][0] == this.a[i][1] && this.a[i][1] == this.a[i][2]) 
+                        {
+                            return this.a[i, 0];
+                        }
+                        else if (this.a[0][i] == this.a[1][i] && this.a[1][i] == this.a[2][i]) 
+                        {
+                            return this.a[0][i];
+                        }
 
                     }
 
-                    if (a[0, 0] == a[1, 1] && a[1, 1] == a[2, 2] || 
-                    a[0, 2] == a[1, 1] && a[1, 1] == a[2, 0])
+                    if (this.a[0][0] == this.a[1][1] && this.a[1][1] == this.a[2][2] || 
+                    this.a[0][2] == this.a[1][1] && this.a[1][1] == this.a[2][0])
                     {
-                        return 'winner';
+                        return this.a[1][1];
                     }
                         return '';
                 }
