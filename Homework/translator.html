@@ -93,12 +93,11 @@
                 }
             });
         }
-
-        alert(localStorage.getItem('MyData'));
         
         $(function () {
             $('#btnTo').click(BtnTo_Translate);
             $('#btnBack').click(BtnBack_Translate);
+            $('#input').val(localStorage.getItem('MyData'));
         });
     </script>
 </head>
