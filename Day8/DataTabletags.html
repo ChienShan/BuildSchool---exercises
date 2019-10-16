@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    <!-- https://datatables.net/ -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <!-- https://cdnjs.com/libraries/jquery-tagsinput -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
+
+
+    <script>
+        //預設資料
+        var dat = [
+            ['Eric', '0912345678', '1980/1/1', 'eric@gmail.com', '台北市光復南路179號13樓', '朋友,客戶'],
+        ];
+
+        //新增資料
+        function AddNewData() {
+
+            var item = [
+                $('#inputName').val(),
+                $('#inputPhone').val(),
+                $('#inputBirth').val(),
+                $('#inputEmail').val(),
+                $('#inputAddress').val(),
+                $('#inputtags').val()
+
+            ];
+            // console.log("$('#inputtags').val() is", $('#inputtags').val());
+
+
+            //新增一個元素
+            dat.push(item);
+            //console.log("dat is",dat);
+            CleanForm();
+            //儲存物件
+            Storage();
+
+            LoadData();
+        }
+
+        function CleanForm() {
+            $('#inputName').val('');
+            $('#inputPhone').val('');
+            $('#inputBirth').val('');
+            $('#inputEmail').val('');
+            $('#inputAddress').val('');
+            $('#inputtags').importTags('');
+        }
+
+        function LoadData() {
+            if (localStorage.getItem("DataContent") != null) {
+                var str = localStorage.getItem("DataContent");
+                dat = JSON.parse(str);
+            }
+            refreshData();
+        }
+
+        function refreshData() {
+            dt = $('#Table1').DataTable();
+            dt.clear();
+            dt.rows.add(dat);
+            dt.draw();
+
+        }
+
+        function Storage() {
+            var src = JSON.stringify(dat);
+            localStorage.setItem("DataContent", src);
+        }
+
+        //修改資料
+        function ChangeData() {
+            var NewItem = [
+                $('#ChangeName').val(),
+                $('#ChangePhone').val(),
+                $('#ChangeBirth').val(),
+                $('#ChangeEmail').val(),
+                $('#ChangeAddress').val(),
+                $('#changetags').val()
+            ];
+
+            var n = dat.indexOf(CurrentEditItem);
+            dat[n] = NewItem;
+            refreshData();
+            Storage();
+        }
+
+        //刪除資料
+        function DeleteData() {
+            var n = dat.indexOf(CurrentEditItem);
+            dat.splice(n, 1);
+            refreshData();
+            Storage();
+
+        }
+
+        //匯入資料 格式: ["Eric","0912345678","1980/1/1","eric@gmail.com","台北市光復南路179號13樓"]
+        function WriteData() {
+            var userStr = $('#text_Write').val();
+            var userData = JSON.parse(userStr);
+            //dat.push(userData);
+            dat = userData;
+            refreshData();
+            Storage();
+
+            $('#text_Write').val(' ');
+        }
+
+        //匯出資料
+        function PrinteData() {
+
+            if (localStorage.getItem("DataContent") != null) {
+                $('#text_Prite').val(localStorage.getItem("DataContent"));
+            }
+
+        }
+        var dt = $('#Table1').DataTable({
+            data: dat
+        });
+
+
+        //初始化
+        function init() {
+
+            //setup DataTable
+            var dt = $('#Table1').DataTable({
+                data: dat
+            });
+
+
+            //hook btn events
+            $('#Btn_AddWindow').click(function (e) {
+                $('#ModalAdd').modal();
+            });
+
+
+
+            $('#Btn_WriteWindow').click(function (e) {
+                $('#ModalWrite').modal();
+            });
+
+
+            $('#Btn_PriteWindow').click(function (e) {
+
+                $('#text_Prite').attr("readonly", "readonly");
+                $('#ModalPrite').modal();
+            });
+
+            $('#AddData').click(AddNewData);
+            $('#WriteData').click(WriteData);
+            $('#PriteData').click(PrinteData);
+            $('#DeleteData').click(DeleteData);
+            $('#ChangeData').click(ChangeData);
+
+            //Tag
+            $('#inputtags').tagsInput({
+                width: 'auto'
+            });
+            $('#changetags').tagsInput({
+                width: 'auto'
+            });
+
+            //參考: https://datatables.net/examples/advanced_init/events_live.html
+            $('#Table1 tbody').on('click', 'tr', function () {
+                //取得當前點選的資料
+                CurrentEditItem = dt.row(this).data();
+                //顯示當前點選的資料
+                //alert(CurrentEditItem);
+                $('#ChangeName').val(CurrentEditItem[0]);
+                $('#ChangePhone').val(CurrentEditItem[1]);
+                $('#ChangeBirth').val(CurrentEditItem[2]);
+                $('#ChangeEmail').val(CurrentEditItem[3]);
+                $('#ChangeAddress').val(CurrentEditItem[4]);
+                $('#changetags').importTags(CurrentEditItem[5]);
+
+                $('#ModalChange').modal();
+            });
+
+            LoadData();
+        }
+
+        $(document).ready(function () {
+            init();
+        });
+    </script>
+</head>
+
+<body>
+    <!--主選單-->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">個人通訊錄</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <button id="Btn_AddWindow" type="button" class="btn btn-info mr-3">新增</button>
+                    <button id="Btn_WriteWindow" type="button" class="btn btn-warning mr-1">匯入</button>
+                    <button id="Btn_PriteWindow" type="button" class="btn btn-warning">匯出</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!--主要顯示區-->
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <table id="Table1" class="display">
+                    <thead>
+                        <td>姓名</td>
+                        <td>電話</td>
+                        <td>生日</td>
+                        <td>郵件</td>
+                        <td>地址</td>
+                        <td>分類</td>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--新增Modal-->
+    <div id="ModalAdd" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">新增資料</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" class="form-control" id="inputName">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">電話</label>
+                            <input type="text" class="form-control" id="inputPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">生日</label>
+                            <input type="text" class="form-control" id="inputBirth">
+                        </div>
+                        <div class="form-group">
+                            <label for="Email1">郵件</label>
+                            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                                else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">地址</label>
+                            <input type="text" class="form-control" id="inputAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="tags">標籤</label>
+                            <input id="inputtags" class=" tags form-control mt-2" type="text"
+                                style="width: auto;height: 150px;" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button id="AddData" type="button" class="btn btn-primary">儲存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--修改Modal-->
+    <div id="ModalChange" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">修改/刪除資料</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" class="form-control" id="ChangeName">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">電話</label>
+                            <input type="text" class="form-control" id="ChangePhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">生日</label>
+                            <input type="text" class="form-control" id="ChangeBirth">
+                        </div>
+                        <div class="form-group">
+                            <label for="Email1">郵件</label>
+                            <input type="email" class="form-control" id="ChangeEmail" aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                                else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">地址</label>
+                            <input type="text" class="form-control" id="ChangeAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="tags">標籤</label>
+                            <input id="changetags" class=" tags form-control mt-2" type="text"
+                                style="width: auto;height: 150px;" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="DeleteData" type="button" class="btn btn-primary">刪除</button>
+                    <button id="ChangeData" type="button" class="btn btn-primary">儲存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--匯入Modal-->
+    <div id="ModalWrite" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">匯入資料</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <textarea id="text_Write" class="form-control" id="exampleFormControlTextarea1"
+                                rows="10"></textarea>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button id="WriteData" type="button" class="btn btn-primary">匯入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--匯出Modal-->
+    <div id="ModalPrite" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">匯出資料</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <textarea id="text_Prite" class="form-control" id="exampleFormControlTextarea1"
+                                rows="10"></textarea>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button id="PriteData" type="button" class="btn btn-primary">匯出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
