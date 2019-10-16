@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>QnA Robot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function BtnTo_Translate() {
+
+            var oriHtml = $('#TalkContainer').html();
+            var userQ = $('#inputText').val();
+            $('#inputText').val('');
+            $('#TalkContainer').html(oriHtml + "<br/><br/>用戶: " + userQ);
+            //scroll to bottom
+            $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight);
+
+
+            GetAnswer(userQ, function (userAns) {
+
+                let oriHtml = $('#TalkContainer').html();
+                console.log('userAns is', userAns.answers[0].questions[0]);
+                $('#TalkContainer').html(oriHtml + "<br/><br/>客服: " + userAns.answers[0].answer);
+                //scroll to bottom
+                $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight);
+            });
+        }
+
+        function GetAnswer(msg, whenSuccess) {
+            $.ajax({
+                    type: "post",
+                    headers: {
+                        "Authorization": "EndpointKey 4f36d424-daa7-490a-9066-d3354c422ec0",
+                        "Content-Type": "application/json"
+                    },
+                    url: "https://bsqna2019.azurewebsites.net/qnamaker/knowledgebases/9f73fd2a-a574-4b17-9907-c4e4fa7389e8/generateAnswer",
+                    data: JSON.stringify({
+                        "question": msg
+                    }),
+                    dataType: "json",
+                    success: whenSuccess,
+                error: function (err) {
+                    $('#TalkContainer').html("<br/><br/>客服: Error");
+                }
+            });
+        }
+
+        $(function () {
+            $('#ButtonSend').click(BtnTo_Translate);
+            $('#inputText').keypress(function (e) {
+                if (e.keyCode == 13) {
+                    BtnTo_Translate();
+                    return false;
+                }
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" style="margin: 10px">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <!-- 卡片  -->
+                <div class="card">
+                    <!-- 卡片標題 -->
+                    <span class="card-header bg-dark" style="color:white">
+                        對談機器人
+                    </span>
+                    <!-- 卡片內容 -->
+                    <div class="card-body">
+                        <!-- 對談區 -->
+                        <div id="TalkContainer" style="overflow: auto; height: 300px;" >
+                        </div>
+                    </div>
+                </div>
+                <form class="form-inline mt-2">
+                    <input id="inputText" class="form-control" style="width:90%;" placeholder="歡迎詢問好市多會員卡相關疑難雜症" />
+                    <button type="button" id="ButtonSend" class="btn btn-dark ml-2">送出</button>
+                </form>
+            </div>
+            <div class="col-2"></div>
+        </div>
+</body>
+
+</html>
