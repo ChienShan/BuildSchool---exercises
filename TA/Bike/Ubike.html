@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+        var map;
+        $(function () {
+
+        });
+
+        function initMap() {
+            var myLatLng = {
+                lat: 25.0417779,
+                lng: 121.5381612,
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 16,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: '北科大億光大樓'
+            });
+
+            //設定icon的集合
+            var icons = {
+                ubike: {
+                    icon: 'bike.png'
+                },
+
+                bluebike: {
+                    icon: 'bike_blue.png'
+                }
+            };
+
+            var features = GetUbikeLocation();
+
+            // Create markers. 將設定好的icons顯示在map上
+            for (var i = 0; i < features.length; i++) {
+                //按照googleMap document給的格式顯示
+                var marker = new google.maps.Marker({
+                    //讀取feature的位置資訊
+                    position: features[i].position,
+                    //讀取icons的位置資訊
+                    icon: icons[features[i].type].icon,
+                    //顯示剛設定的資料在地圖上
+                    map: map,
+
+                    title: features[i].title,
+                });
+            };
+        }
+
+        //取得Ubike的位置(經緯度)
+        function GetUbikeLocation() {
+            /*position: new google.maps.LatLng(25.0417779, 121.5381612),
+            type: 'ubike'
+            */
+
+            var data = [];
+            var opendata = GetOpenData();
+            console.log('OpenData is', opendata);
+
+            //顯示+給予每一個item的值
+            $.each(opendata.retVal, function (i, item) {
+                console.log('i is', i);
+                console.log('item is', item);
+
+                var singleItem = {
+                    position: new google.maps.LatLng(item.lat, item.lng),
+                    type: 'ubike',
+                    title: item.sbi + '/' + item.tot,
+                }
+                console.log('singleItem is', singleItem);
+
+                if(item.sbi<10){
+                    singleItem.type = 'bluebike';
+                }
+                //將資料加入collection
+                data.push(singleItem);
+            });
+            return data;
+        }
+
+        //取得OpenData
+        function GetOpenData() {
+
+            var ubikeLocation;
+
+            $.ajax({
+                type: 'Get',
+                url: 'https://tcgbusfs.blob.core.windows.net/blobyoubike/YouBikeTP.json',
+                success: function (data) {
+                    ubikeLocation = data;
+                    console.log('data is', data);
+                },
+                error: function () {
+
+                    alert('fail');
+                },
+                async: false,
+            })
+
+            return ubikeLocation;
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlKWP4uWjQIR3WDAWLAu6rUhBfc3_ppag&callback=initMap"
+        async defer></script>
+</body>
+
+</html>
