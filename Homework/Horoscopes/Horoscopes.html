@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!--<link rel="icon" href="../../favicon.ico">-->
+
+  <title>生命靈數</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
+
+  <!-- Custom styles for this template -->
+  <link href="stylesheets/dashboard.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+  <script src="scripts/bootstrap.min.js"></script>
+  <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+  <!--<script src="../../assets/js/vendor/holder.min.js"></script>-->
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+
+  <script>
+
+    //取得日期
+    
+    var date;
+
+    $(function () {
+      $('#button').click(GetResult);
+    });
+
+    function GetResult() {
+       date = $('#userDate').val();
+
+      //取得生命靈數
+      var num = CalculateDate(date);
+      //console.log('num is', num);
+
+      //取得星座
+      var star = GetHor();
+      //console.log('star is', star);
+
+      //顯示結果
+      $.ajax({
+        type: "Get",
+        url: "https://buildschoolnumerology.azurewebsites.net/api/Number/Numerology",
+        data: {"constellation":star},
+        dataType: "json",
+        success: function (response) {
+          var target = document.getElementById('Results');
+          var newinfo = document.createElement("li");
+          newinfo.classList.add("list-group-item");
+          newinfo.innerHTML = `<span>${date}</span>
+          出生的你，星座是 ${response.name}<br/>你的生命靈數: ${num}<br/> ${response.lookup[num - 1]}`;
+
+          target.appendChild(newinfo);
+        }
+      });
+
+    }
+
+    function CalculateDate(date) {
+      //取得整數日期
+      var dateNum = date.replace("-", "").replace("-", "");
+      var value = 0;
+      var result = 0;
+
+      // console.log('datanum is', dateNum);
+      // console.log('datanum is', dateNum[0]);
+      // console.log('datanum is', parseInt(dateNum[4]) + parseInt(dateNum[5]));
+      // console.log('datanumlength is', dateNum.length);
+
+      //計算第一次日期相加
+      for (let i = 0; i < dateNum.length; i++) {
+        let x = parseInt(dateNum[i]);
+        value += x;
+      }
+
+      //console.log('value is', value.length);
+
+      var dateSum = value.toString();
+
+      //計算第二次日期相加
+      if (dateSum > 9) {
+        for (let j = 0; j < dateSum.length; j++) {
+          let y = parseInt(dateSum[j]);
+          result += y;
+        }
+      }
+
+      //console.log('result is', result.toString());
+      return result;
+    }
+
+    function GetHor() {
+      var d = new Date(date);
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      
+      var constellation = "";
+
+      if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) {
+        constellation = "aries"; //牡羊座
+      }
+      if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) {
+        constellation = "taurus"; //金牛座
+      }
+      if ((month == 5 && day >= 21) || (month == 6 && day <= 21)) {
+        constellation = "gemini"; //雙子座
+      }
+      if ((month == 6 && day >= 22) || (month == 7 && day <= 22)) {
+        constellation = "cancer"; //巨蟹座
+      }
+      if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) {
+        constellation = "leo"; //獅子座
+      }
+      if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) {
+        constellation = "virgo"; //處女座
+      }
+      if ((month == 9 && day >= 23) || (month == 10 && day <= 23)) {
+        constellation = "libra"; //天秤座
+      }
+      if ((month == 10 && day >= 24) || (month == 11 && day <= 22)) {
+        constellation = "scorpio"; //天蠍座
+      }
+      if ((month == 11 && day >= 23) || (month == 12 && day <= 21)) {
+        constellation = "sagittarius"; //射手座
+      }
+      if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) {
+        constellation = "capricorn"; //摩羯座
+      }
+      if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) {
+        constellation = "aquarius"; //水瓶座
+      }
+      if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) {
+        constellation = "pisces"; //雙魚座
+      }
+      return constellation;
+    }
+
+  </script>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project name</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <input type="text" class="form-control" placeholder="Search...">
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+          <li><a href="#">Reports</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Export</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="">Nav item</a></li>
+          <li><a href="">Nav item again</a></li>
+          <li><a href="">One more nav</a></li>
+          <li><a href="">Another nav item</a></li>
+          <li><a href="">More navigation</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="">Nav item again</a></li>
+          <li><a href="">One more nav</a></li>
+          <li><a href="">Another nav item</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="container-fluid">
+          <h3>生命靈數</h3>
+          <div class="row">
+            <div class="col-md-12">
+
+              <div class="input-group">
+                <input id="userDate" type="date" class="form-control" placeholder="請選擇出生年月日">
+                <div class="input-group-btn">
+                  <button class="btn btn-outline-secondary" type="button" id="button">顯示結果</button>
+                </div>
+              </div>
+
+              <ul id="Results" class="list-group">
+
+
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+  </script>
+</body>
+
+</html>
