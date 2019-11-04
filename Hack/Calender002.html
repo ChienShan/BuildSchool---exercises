@@ -14,34 +14,32 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+TC&display=swap" rel="stylesheet">
 
     <style>
-        body{
+        body {
             font-family: 'Noto Serif TC', serif;
         }
 
-        #calendar{
+        #calendar {
             margin: 0 auto;
             width: 1080px;
         }
 
-        #title_month{
+        #title_month {
             font-size: 25px;
         }
 
-        .container{
-            margin-bottom: 15px;
+        .container {
+            margin-bottom: 30px;
         }
 
-        td{
-            vertical-align:top;
+        td {
+            vertical-align: top;
             width: 155px;
             height: 150px;
         }
 
-        td:hover{
-            background-color: skyblue;    
+        td:hover {
+            background-color: skyblue;
         }
-
-        
     </style>
 </head>
 
@@ -133,6 +131,46 @@
         </div>
     </div>
 
+    <!--Modal-->
+    <div id="AddEdit" class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">修改行事曆</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-2">年份:</div>
+                        <label id="label_year">2019</label>
+                        <div class="col-2">月份:</div>
+                        <label id="label_month"></label>
+                        <div class="col-2">日期:</div>
+                        <label id="label_date"></label>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label for="comment">代辦事項</label>
+                            <textarea class="form-control" rows="2" id="Edit_content"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="btn_Add" type="button" class="btn btn-danger" data-dismiss="modal">新增</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -165,7 +203,7 @@
             DataArr = JSON.parse(localStorage.getItem('data'))
 
             //產生月份
-            $('#title_month').text(GetMonthName(_month));
+            $('#title_month').text(GetMonthName(_month)).attr('value', _month);
 
             //取得這個第一天
             var firstDay = new Date(_year, _month, 1);
@@ -199,7 +237,7 @@
                 let week = parseInt(j / 7);
                 let target = $('#calendar-content').find('.week' + week);
                 target.append($('<td>').text(Calendar[j].date).addClass('date' + j).attr('id',
-                    `${Calendar[j].month}${Calendar[j].date}`));
+                    `${Calendar[j].month}${Calendar[j].date}`).attr('value',Calendar[j].date));
             }
 
             LoadData();
@@ -313,11 +351,11 @@
             let select_day = parseInt($('#list_Days').val());
             let list_content = $('#content').val();
             let today = new Date(_year, select_month, select_day)
-            let flag = true
+            let flag = true;
 
             //如果日期欄位存在清單
             $.each(DataArr, (i, item) => {
-                if (new Date(item.date) - new Date(2019, select_month, select_day) == 0) {
+                if (new Date(2019, item.month, item.date) - new Date(2019, select_month, select_day) == 0) {
                     item.content += `${list_content}<br>`;
                     flag = false;
                 }
@@ -329,16 +367,44 @@
                     "month": today.getMonth(),
                     "date": today.getDate(),
                     "week": today.getDay(),
-                    "content": `${list_content}<br>`
+                    "content": `<br id='showlist'>${list_content}<br>`
                 }
                 DataArr.push(Item);
             }
 
             localStorage.setItem('data', JSON.stringify(DataArr))
+
+            CleanForm();
             LoadData();
 
         }
 
+        //點擊+修改資料
+        function tdClick() {
+            let this_day = parseInt($(this).attr('value'));
+            let this_month = parseInt($('#title_month').attr('value'));
+            let this_content = $(`td[id='${this_month}${this_day}']`).html() == undefined ? '' : $(
+                `td[id='${this_month}${this_day}']`).html().replace(/<br>/g, '\n');
+            //<td class="date4" id="931">31</td>
+            // console.log('this_day', this_day,$(this).val());
+            // console.log('this_month', this_month);
+            // console.log('this_content', this_content);
+
+            $('#label_date').html(this_day);
+            $('#label_month').html(this_month);
+            $('#Edit_content').val(`${this_content}`);
+            $('#AddEdit').modal();
+
+        }
+
+        //清除選單資料
+        function CleanForm() {
+            $('#list_Months').val('');
+            $('#list_Days').val('');
+            $('#content').val('');
+        }
+
+        //載入存放資料
         function LoadData() {
             if (DataArr == []) return;
 
@@ -350,6 +416,9 @@
                 //<td class="date12" id="108">8</td>         
             })
         }
+
+
+
 
         $(function () {
 
@@ -368,6 +437,9 @@
             for (let i = 0; i < 12; i++) {
                 $('#list_Months').append(` <option value="${i}">${i+1}</option>`);
             }
+
+            //將這個月份的td掛上click事件
+            $('td').click(tdClick);
 
         });
     </script>
