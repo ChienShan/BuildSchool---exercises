@@ -239,7 +239,8 @@
                 target.append($('<td>').text(Calendar[j].date).addClass('date' + j).attr('id',
                     `${Calendar[j].month}${Calendar[j].date}`).attr('value',Calendar[j].date));
             }
-
+            //將這個月份的td掛上click事件
+            $('td').click(tdClick);
             LoadData();
 
         }
@@ -438,8 +439,6 @@
                 $('#list_Months').append(` <option value="${i}">${i+1}</option>`);
             }
 
-            //將這個月份的td掛上click事件
-            $('td').click(tdClick);
 
         });
     </script>
