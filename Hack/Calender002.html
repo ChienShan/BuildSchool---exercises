@@ -163,7 +163,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button id="btn_Storage" type="button" class="btn btn-danger" data-dismiss="modal">修改</button>
+                    <!-- <button id="btn_Storage" type="button" class="btn btn-danger" data-dismiss="modal">修改</button> -->
                     <button id="btn_Delete" type="button" class="btn btn-danger" data-dismiss="modal">刪除</button>
                 </div>
 
@@ -374,7 +374,7 @@
                     "month": today.getMonth(),
                     "date": today.getDate(),
                     "week": today.getDay(),
-                    "content": `<div class='showlist'>${list_content}<br></div>`
+                    "content": `${list_content}<br>`
                 }
                 DataArr.push(Item);
             }
@@ -392,7 +392,7 @@
         function List_Delete() {
             let this_day = parseInt($('#label_date').html());
             let this_month = parseInt($('#title_month').attr('value'));
-            console.log('xxx',this_month,this_day);
+            //console.log('xxx', this_month, this_day);
             $.each(DataArr, (i, item) => {
                 //console.log('yyy', item.month, item.date);
                 if (new Date(2019, item.month, item.date) - new Date(2019, this_month, this_day) == 0) {
