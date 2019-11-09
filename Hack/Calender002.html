@@ -138,7 +138,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">修改行事曆</h4>
+                    <h4 class="modal-title">變更行事曆</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -163,8 +163,8 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button id="btn_Add" type="button" class="btn btn-danger" data-dismiss="modal">新增</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                    <button id="btn_Storage" type="button" class="btn btn-danger" data-dismiss="modal">修改</button>
+                    <button id="btn_Delete" type="button" class="btn btn-danger" data-dismiss="modal">刪除</button>
                 </div>
 
             </div>
@@ -237,10 +237,16 @@
                 let week = parseInt(j / 7);
                 let target = $('#calendar-content').find('.week' + week);
                 target.append($('<td>').text(Calendar[j].date).addClass('date' + j).attr('id',
-                    `${Calendar[j].month}${Calendar[j].date}`).attr('value',Calendar[j].date));
+                    `${Calendar[j].month}${Calendar[j].date}`).attr('value', Calendar[j].date));
             }
+
+            //console.log('lastDay',lastDay.getDate());
             //將這個月份的td掛上click事件
-            $('td').click(tdClick);
+            //$('td').click(tdClick);
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                $(`td[id='${_month}${i}']`).click(tdClick);
+                //console.log('tdClick', `${_month}${i}`);
+            }
             LoadData();
 
         }
@@ -368,7 +374,7 @@
                     "month": today.getMonth(),
                     "date": today.getDate(),
                     "week": today.getDay(),
-                    "content": `<br id='showlist'>${list_content}<br>`
+                    "content": `<div class='showlist'>${list_content}<br></div>`
                 }
                 DataArr.push(Item);
             }
@@ -380,7 +386,26 @@
 
         }
 
-        //點擊+修改資料
+        //修改代辦事項
+
+        //刪除代辦事項
+        function List_Delete() {
+            let this_day = parseInt($('#label_date').html());
+            let this_month = parseInt($('#title_month').attr('value'));
+            console.log('xxx',this_month,this_day);
+            $.each(DataArr, (i, item) => {
+                //console.log('yyy', item.month, item.date);
+                if (new Date(2019, item.month, item.date) - new Date(2019, this_month, this_day) == 0) {
+                    //console.log('zzz', item.month, item.date);
+                    DataArr.splice(i, 1);
+                }
+            })
+            localStorage.setItem('data', JSON.stringify(DataArr));
+
+            ShowCalender();
+        }
+
+        //點擊顯示資料
         function tdClick() {
             let this_day = parseInt($(this).attr('value'));
             let this_month = parseInt($('#title_month').attr('value'));
@@ -392,7 +417,7 @@
             // console.log('this_content', this_content);
 
             $('#label_date').html(this_day);
-            $('#label_month').html(this_month);
+            $('#label_month').html(this_month + 1);
             $('#Edit_content').val(`${this_content}`);
             $('#AddEdit').modal();
 
@@ -431,14 +456,15 @@
                 $('#AddList').modal();
             });
             $('#btn_Add').click(List_Add);
+            $('#btn_Delete').click(List_Delete);
             $('#list_Months').change(Selection_Change);
+
 
 
             //新增modal月份選項
             for (let i = 0; i < 12; i++) {
                 $('#list_Months').append(` <option value="${i}">${i+1}</option>`);
             }
-
 
         });
     </script>
