@@ -44,7 +44,98 @@
   <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
 
   <script>
-    var answer = new Array();
+    $(document).ready(function () {
+      init();
+    });
+
+    function init() {
+      $('#start').click(startGame);
+      $('#restart').click(abortGame);
+      $('#cheat').click(showAnswer);
+      $('#guess').click(doGuess);
+
+      document.getElementById('userGuess').onkeyup = function (event) {
+        if (event.keyCode == 13) {
+          doGuess();
+          $('#userGuess').val('');
+        }
+      }
+    }
+
+    var ans = new Array(4);
+    function startGame() {
+      for (i = 0; i < 4; i++) {
+        ans[i] = Math.floor(Math.random() * 10);
+        for (j = 0; j < i; j++) {
+          while (ans[j] == ans[i]) {
+            j = 0;
+            ans[i] = Math.floor(Math.random() * 10);
+          }
+        }
+      }
+    }
+
+    function abortGame() {
+      $('#guessResults li').remove();
+      $('#userGuess').val('');
+    }
+
+    function showAnswer() {
+      alert(`Answer is ${ans[0]}${ans[1]}${ans[2]}${ans[3]}`);
+    }
+
+    var a = 0;
+    var b = 0;
+    function doGuess() {
+      a = 0;
+      b = 0;
+      var guess = $('#userGuess').val();
+      var s = SplitNumber(guess);
+      for (i = 0; i < 4; i++) {
+        if (s[i] == ans[i]) {
+          a++;
+        }
+        else if (ans.includes(s[i])) {
+          b++;
+        }
+      }
+      //alert(`${a}A${b}B ${s}`);
+      getGuessInfo();
+    }
+
+    function getGuessInfo() {
+      if (split[0] == split[1] || split[0] == split[2] || split[0] == split[3] || split[1] == split[2] || split[1] == split[3] || split[2] == split[3]) {
+        alert("請勿輸入相同的數字!!");
+      }
+      else {
+        var target = document.getElementById('guessResults');
+        var newinfo = document.createElement("li");
+        newinfo.classList.add("list-group-item");
+        if (a == 4) {
+          newinfo.innerHTML = `<span class="label label-success">${a}A${b}B</span> ${split[0]}${split[1]}${split[2]}${split[3]}`;
+        }
+        else {
+          newinfo.innerHTML = `<span class="label label-danger">${a}A${b}B</span> ${split[0]}${split[1]}${split[2]}${split[3]}`;
+        }
+        target.appendChild(newinfo);
+      }
+
+    }
+
+    var split = new Array(4);
+    function SplitNumber(guess) {
+
+      split[0] = Math.floor(guess / 1000);
+      split[1] = Math.floor((guess % 1000) / 100);
+      split[2] = Math.floor((guess % 100) / 10);
+      split[3] = Math.floor(guess % 10);
+      return split;
+    }
+
+
+  </script>
+  <!-- <script>
+    var answer = new Array(4);
 
     function startGame() {
 
@@ -64,8 +155,9 @@
 
     }
 
-    function abortGame() {
-      $('#guessResults').clean();
+    function restarGame() {
+      $('#guessResults li').remove();
+      $('#userGuess').val('');
     }
 
     function showAnswer() {
@@ -78,14 +170,12 @@
     function CheckAnswer() {
 
       var result = CheckAB();
-
+      console.log('result',result); 
       if(result == '4A0B')
       {
         $('#guessResults').append(
           '<li class="list-group-item"><span class="label label-success">4A0B</span>' + $('#userGuess')
-          .val() + '</li>');
-
-          abortGame();
+          .val() + '恭喜猜中，請重新開始' + '</li>');
       }
 
       else 
@@ -113,6 +203,10 @@
           b++;
         }
 
+        console.log('answer.includes(userAnswer[i])',answer.includes(userAnswer[i]));
+        console.log('answer',answer);
+        console.log('userAnswer[i]',userAnswer[i]);
+
       }
 
       var result = a + 'A' + b + 'B';
@@ -129,11 +223,11 @@
 
     $(function () {
       $('#start').click(startGame);
-      $('#restart').click(abortGame);
+      $('#restart').click(restarGame);
       $('#cheat').click(showAnswer);
       $('#guess').click(CheckAnswer);
     });
-  </script>
+  </script> -->
 
 </head>
 
